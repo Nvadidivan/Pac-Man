@@ -39,7 +39,6 @@ function aStar(startX, startY, endX, endY) {
         }
     }
     openList.push(startNode)
-    console.log(startNode)
     startNode.opened = true
     while (!openList.empty()) {
         // pop the position of node which has the minimum `f` value.
