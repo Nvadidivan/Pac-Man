@@ -16,6 +16,7 @@ function main(time) {
     
 
     blinky.draw()
-
+    pacman.draw()
     blinky.update()
+    pacman.update()
 }

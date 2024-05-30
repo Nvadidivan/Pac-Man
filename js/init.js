@@ -13,6 +13,10 @@ function init() {
     ctx = canvas.getContext("2d")
     canvas.width = "448"
     canvas.height = "496"
+
+    window.addEventListener("keydown", (e) => {
+        pacman.move(e)
+    })
     
 
     grid = new Grid()
