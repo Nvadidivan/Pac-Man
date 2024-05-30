@@ -20,6 +20,7 @@ function init() {
     
 
     grid = new Grid()
+
     blinky = new Ghost(0, 0)
     ghosts.push(blinky)
     inky = new Ghost(1, 0)
@@ -28,12 +29,19 @@ function init() {
     ghosts.push(pinky)
     clyde = new Ghost(3, 0)
     ghosts.push(clyde)
+
     pacman = new PacMan()
 
-    pathfinding()
-
-    setTimeout(pathfinding, 3000)
+    for (let i = 0; i < ghosts.length; i++) {
+        ghosts[i].test()
+    }
     
+
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    grid.draw()
+
+
     window.requestAnimationFrame(main)
 }
 

@@ -1,6 +1,6 @@
 let lastTime = 0
 let timePassed;
-
+let loop = 0
 function main(time) {
     timePassed = (time - lastTime) / 1000
     lastTime = time
@@ -10,13 +10,15 @@ function main(time) {
     
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    ctx.fillStyle = "blue";
+    ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     grid.draw()
-    
-
-    blinky.draw()
+  
+    for (let i = 0; i < ghosts.length; i++) {
+        ghosts[i].draw()
+        ghosts[i].update()
+    }
+  
     pacman.draw()
-    blinky.update()
     pacman.update()
 }
