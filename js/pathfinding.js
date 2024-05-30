@@ -1,23 +1,5 @@
 let result = [[], [], [], []] //arrays already identified because if not, draw() in ghost would break because they didnt exist
 
-function pathfinding() {
-    startX = ghosts[0].pathfind()[0]
-    startY = ghosts[0].pathfind()[1]
-    endX = ghosts[0].pathfind()[2]
-    endY = ghosts[0].pathfind()[3]
-
-    
-    result[0] = movement(aStar(startX, startY, endX, endY))
-    /*for (let i = 0; i < ghosts.length; i++) {
-        startX = ghosts[i].pathfind()[0]
-        startY = ghosts[i].pathfind()[1]
-        endX = ghosts[i].pathfind()[2]
-        endY = ghosts[i].pathfind()[3]
-        
-        result[i] = (aStar(startX, startY, endX, endY)) ** cannot be result.push because they didnt already exist
-    } official code */
-}
-
 function movement(trail) {
     let displacement = []
     for(let i = 0; i < trail.length - 1; i++) {
@@ -38,10 +20,10 @@ function aStar(startX, startY, endX, endY) {
     heuristic = (x, endX, y, endY) => {
         let normal = abs(x - endX) + abs(y - endY)
 
-        let special = ((29 - x) + (endX)) + (endY - y)
+        let special = ((28 - x) + (endX - 1)) + (endY - 15) + (15 - y) 
         return Math.min(normal, special)
     },
-    weight = 1,
+    weight = 14,
     abs = Math.abs, SQRT2 = Math.SQRT2,
     node, neighbors, neighbor, i, l, x, y, ng;
 
@@ -51,9 +33,13 @@ function aStar(startX, startY, endX, endY) {
             cell.closed = false
             cell.opened = false
             cell.parent = undefined
+            cell.g = 0
+            cell.f = 0
+            cell.h = 0
         }
     }
     openList.push(startNode)
+    console.log(startNode)
     startNode.opened = true
     while (!openList.empty()) {
         // pop the position of node which has the minimum `f` value.
