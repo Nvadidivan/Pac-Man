@@ -52,7 +52,7 @@ class Grid  {
         this.height = 33
         this.nodes = this._buildNodes()
 
-        this.blocked = [[this.nodes[0][0]], [this.nodes[0][0]], [this.nodes[0][0]], [this.nodes[0][0]]]
+        this.blocked = [[this.nodes[0][0]], [this.nodes[0][0]], [this.nodes[0][0]], [this.nodes[0][0]], [this.nodes[0][0]]]
 
         for (let i = 1; i < 32; i++) {
             for (let j = 1; j < 29; j++) {
@@ -121,11 +121,11 @@ class Grid  {
             s3 = true;
         }
 
-        if (x == 0 && y == 14) {
-            neighbors.push(nodes[14][29]);
+        if (x == 0 && y == 15) {
+            neighbors.push(nodes[15][29]);
             s3 = true
-        } else if (x == 29 && y == 14) {
-            neighbors.push(nodes[14][0]);
+        } else if (x == 29 && y == 15) {
+            neighbors.push(nodes[15][0]);
             s1 = true
         }
         return neighbors;
@@ -274,11 +274,22 @@ class Grid  {
     }
 
     block(x, y, type) {
-        if (!this.blocked[type].isWall) {
-            this.blocked[type].walkable = true
+
+
+        for (let i = -1; i < 2; i++) {
+            for (let j = -1; j < 2; j++) {
+                if (!this.blocked[type].isWall) {
+                    this.blocked[type].walkable = true
+                }
+            }
         }
+
         this.blocked[type] = this.nodes[y][x]
-        this.blocked[type].walkable = false
-        ghosts[type].pathfind()
+
+        for (let i = -1; i < 2; i++) {
+            for (let j = -1; j < 2; j++) {
+                this.nodes[y + j][x + i].walkable = false
+            }
+        }
     }
 }

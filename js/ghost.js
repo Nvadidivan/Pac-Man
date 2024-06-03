@@ -9,7 +9,6 @@ class Ghost {
     constructor(type, mode) {
         this.type = type
         this.mode = mode
-        console.log(this.type)
         if (this.type == 0) {
             this.x = 3
             this.y = 15
@@ -25,29 +24,89 @@ class Ghost {
         }
         this.rx = this.x
         this.ry = this.y
+        this.dx = 0
+        this.dy = 0
         this.move = [0, 0, 0, 0]
         this.target = [0, 0]
+        this.last = [this.x, this.y]
     }
 
-    test() {
-        let x = Math.trunc(Math.random() * 28) + 2
-        let y = Math.trunc(Math.random() * 29) + 2
-        while (true) {
-            if (grid.nodes[y][x].walkable) {
-                break
-            } else {
-                x = Math.trunc(Math.random() * 28) + 2
-                y = Math.trunc(Math.random() * 29) + 2
-            }
-        }
-        result[this.type] = movement(aStar(this.x, this.y, x, y))
+    getTarget() {
+        this.target = [pacman.x, pacman.y]
     }
 
     pathfind() {
-        result[this.type] = movement(aStar(this.x, this.y, this.target[0], this.target[1]))
+        let neighbors = grid.getNeighbors(grid.nodes[this.y][this.x])
+        if(neighbors.length > 2) {  
+            for (let i = 0; i < neighbors.length; i++) {
+                let dx = neighbors[i].x - this.x
+                let dy = neighbors[i].y - this.y
+                if (neighbors[i].x == this.last[0] && neighbors[i].y == this.last[1]) {
+                    neighbors[i] = Infinity
+                } else {
+                    let x = Math.abs(this.target[0] - neighbors[i].x)
+                    let y = Math.abs(this.target[1] - neighbors[i].y)
+                    let dist = x + y
+                    neighbors[i] = [dist, dx, dy]
+                }
+            }
+            neighbors.sort()
+            this.dx = neighbors[0][1]
+            this.dy = neighbors[0][2]
+        } else {
+            for (let i = 0; i < neighbors.length; i++) {
+                let dx = neighbors[i].x - this.x
+                let dy = neighbors[i].y - this.y
+                if (neighbors[i].x == this.last[0] && neighbors[i].y == this.last[1]) {
+                    neighbors[i] = Infinity
+                } else {
+                    neighbors[i] = [0, dx, dy]
+                }
+            }
+            neighbors.sort()
+            this.dx = neighbors[0][1]
+            this.dy = neighbors[0][2]
+        }
     }
 
     update() {
+        this.getTarget()
+        this.pathfind()
+
+        if (this.dx == 29) {
+            this.rx = 29
+        } else if (this.dx == -29) {
+            this.rx = 0
+        } else {
+            this.rx += this.dx * timePassed * 4
+            this.ry += this.dy * timePassed * 4
+        }
+
+        if (this.dx == 0) {
+            this.rx = this.x
+        }
+        if (this.dy == 0) {
+            this.ry = this.y
+        }
+        let x = this.x
+        let y = this.y
+        if (this.dx > 0) {
+            this.x = Math.floor(this.rx)
+        } else if (this.dx < 0) {
+            this.x = Math.ceil(this.rx)
+        } else if (this.dy > 0) {
+            this.y = Math.floor(this.ry)
+        } else if (this.dy < 0) {
+            this.y = Math.ceil(this.ry)
+        }
+
+        if (this.x != x || this.y != y) {
+            this.last = [x, y]
+        }
+    }
+
+
+    /*update_old() {
         if (result[this.type].length > 0 && result[this.type][result[this.type].length - 1].length == 2) {
             this.target = result[this.type].pop()
             this.move = result[this.type].pop()
@@ -58,8 +117,7 @@ class Ghost {
 
         if (this.x == this.target[0] && this.y == this.target[1]) {
             this.move = [0, 0, 0, 0]
-            this.test()
-            return
+            console.log(e)
         } else if (Math.abs(this.move[0]) > 1) {
             this.rx += this.move[0]
         } else {
@@ -67,14 +125,6 @@ class Ghost {
             this.ry += this.move[1] * timePassed * 4
         }
 
-        
-
-        if (this.move[0] == 0) {
-            this.rx = Math.round(this.rx)
-        }
-        if (this.move[1] == 0) {
-            this.ry = Math.round(this.ry)
-        }
 
         if (this.move[0] > 1) {
             this.x = 29
@@ -90,19 +140,24 @@ class Ghost {
             this.y = Math.ceil(this.ry)
         }
 
-
-    }
+        if (this.move[0] == 0) {
+            this.rx = this.x
+        }
+        if (this.move[1] == 0) {
+            this.ry = this.y
+        }
+    }*/
        
 
     draw() {
 
         if (this.type == 0) {
-            ctx.beginPath();
-            ctx.rect(16 * (this.target[0] - 1), 16 * (this.target[1] - 1), 16, 16);
-            ctx.strokeStyle = "#fa2402";
-            ctx.lineWidth = 4
-            ctx.stroke();
-            ctx.closePath();
+            // ctx.beginPath();
+            // ctx.rect(16 * (this.x - 1), 16 * (this.y - 1), 16, 16);
+            // ctx.strokeStyle = "#fa2402";
+            // ctx.lineWidth = 4
+            // ctx.stroke();
+            // ctx.closePath();
 
             ctx.beginPath();
             ctx.rect(16 * (this.rx - 1), 16 * (this.ry - 1), 16, 16);
@@ -110,12 +165,12 @@ class Ghost {
             ctx.fill();
             ctx.closePath(); 
         } else if (this.type == 1) {
-            ctx.beginPath();
-            ctx.rect(16 * (this.target[0] - 1), 16 * (this.target[1] - 1), 16, 16);
-            ctx.strokeStyle = "#02dde1";
-            ctx.lineWidth = 4
-            ctx.stroke();
-            ctx.closePath();
+            // ctx.beginPath();
+            // ctx.rect(16 * (this.x - 1), 16 * (this.y - 1), 16, 16);
+            // ctx.strokeStyle = "#02dde1";
+            // ctx.lineWidth = 4
+            // ctx.stroke();
+            // ctx.closePath();
 
             ctx.beginPath();
             ctx.rect(16 * (this.rx - 1), 16 * (this.ry - 1), 16, 16);
@@ -123,11 +178,11 @@ class Ghost {
             ctx.fill();
             ctx.closePath(); 
         } else if (this.type == 2) {ctx.beginPath();
-            ctx.rect(16 * (this.target[0] - 1), 16 * (this.target[1] - 1), 16, 16);
-            ctx.strokeStyle = "#fdb3b0";
-            ctx.lineWidth = 4
-            ctx.stroke();
-            ctx.closePath();
+            // ctx.rect(16 * (this.x - 1), 16 * (this.y - 1), 16, 16);
+            // ctx.strokeStyle = "#fdb3b0";
+            // ctx.lineWidth = 4
+            // ctx.stroke();
+            // ctx.closePath();
 
             ctx.beginPath();
             ctx.rect(16 * (this.rx - 1), 16 * (this.ry - 1), 16, 16);
@@ -135,12 +190,12 @@ class Ghost {
             ctx.fill();
             ctx.closePath(); 
         } else if (this.type == 3) {
-            ctx.beginPath();
-            ctx.rect(16 * (this.target[0] - 1), 16 * (this.target[1] - 1), 16, 16);
-            ctx.strokeStyle = "#f8a201";
-            ctx.lineWidth = 4
-            ctx.stroke();
-            ctx.closePath();
+            // ctx.beginPath();
+            // ctx.rect(16 * (this.x- 1), 16 * (this.y- 1), 16, 16);
+            // ctx.strokeStyle = "#f8a201";
+            // ctx.lineWidth = 4
+            // ctx.stroke();
+            // ctx.closePath();
 
             ctx.beginPath();
             ctx.rect(16 * (this.rx - 1), 16 * (this.ry - 1), 16, 16);
