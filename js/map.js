@@ -35,11 +35,13 @@ let matrix = [
 ]
 
 class Node {
-    constructor(x, y, walkable, isWall) {
+    constructor(x, y, walkable, isWall, hasCoin, hasBigCoin) {
         this.x = x
         this.y = y
         this.walkable = walkable
         this.isWall = isWall
+        this.hasCoin = hasCoin
+        this.hasBigCoin = hasBigCoin
         this.g;
         this.f;
         this.wall;
@@ -70,10 +72,17 @@ class Grid  {
             nodes[i] = new Array(30)
             for (let j = 0; j < 30; j++) {
                 let walkable = true
+                let hasCoin = false
+                let hasBigCoin = false
                 if (matrix[i][j] == 3) {
                     walkable = false
+                }else if (matrix[i][j] == 1) {
+                    hasCoin = true
+                }else if (matrix[i][j] == 2){ 
+                    hasBigCoin = true
                 }
-                nodes[i][j] = new Node(j, i, walkable, !walkable)
+
+                nodes[i][j] = new Node(j, i, walkable, !walkable, hasCoin, hasBigCoin)
             }
         }
         return nodes
@@ -170,6 +179,12 @@ class Grid  {
                             
                         }
                     }
+                }else if (this.nodes[i][j].hasCoin) {
+                    ctx.fillStyle = "#FFFFFF"
+                    ctx.fillRect(16 * (j - 1) + 7, 16 * (i - 1) + 7, 2, 2)
+                }else if (this.nodes[i][j].hasBigCoin) {
+                    ctx.fillStyle = "#FFFFFF"
+                    ctx.fillRect(16 * (j - 1) + 5, 16 * (i - 1) + 5, 6, 6)
                 }
             }
         }

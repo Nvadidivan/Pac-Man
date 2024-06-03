@@ -18,7 +18,6 @@ function main(time) {
         ghosts[i].draw()
         ghosts[i].update()
     }
-  
-    pacman.draw()
+
     pacman.update()
 }
