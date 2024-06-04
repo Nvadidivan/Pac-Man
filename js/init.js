@@ -31,16 +31,13 @@ function init() {
     ghosts.push(clyde)
 
     pacman = new PacMan()
-
-    for (let i = 0; i < ghosts.length; i++) {
-        ghosts[i].test()
-    }
     
 
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     grid.draw()
 
+    
 
     window.requestAnimationFrame(main)
 }

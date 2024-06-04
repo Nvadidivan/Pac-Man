@@ -8,18 +8,20 @@ function main(time) {
 
     window.requestAnimationFrame(main)
     
+  
+    for (let i = 0; i < ghosts.length; i++) {
+        ghosts[i].update()
+    }
+    pacman.update()
+
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     grid.draw()
-
   
     for (let i = 0; i < ghosts.length; i++) {
         ghosts[i].draw()
-        ghosts[i].update()
     }
-
-    pacman.update()
     pacman.draw()
 }
