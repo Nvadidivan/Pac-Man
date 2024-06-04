@@ -21,13 +21,13 @@ function init() {
 
     grid = new Grid()
 
-    blinky = new Ghost(0, 0)
+    blinky = new Ghost(0, "chase")
     ghosts.push(blinky)
-    inky = new Ghost(1, 0)
+    inky = new Ghost(1, "chase")
     ghosts.push(inky)
-    pinky = new Ghost(2, 0)
+    pinky = new Ghost(2, "chase")
     ghosts.push(pinky)
-    clyde = new Ghost(3, 0)
+    clyde = new Ghost(3, "chase")
     ghosts.push(clyde)
 
     pacman = new PacMan()

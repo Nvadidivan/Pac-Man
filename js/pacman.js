@@ -12,7 +12,9 @@ class PacMan {
         this.dy = 0
         this.tx = 0
         this.ty = 0
+        this.score = 0
     }
+
     move(e){
         if (e.key == "w") {
             this.ty = -1;
@@ -29,10 +31,6 @@ class PacMan {
         }
     }
     
-    check_colllision(){
-        
-    }
-
     update() {
 
         if (this.dx == -1 && this.x == 0) {
@@ -87,15 +85,21 @@ class PacMan {
                 this.dy = 0
             }
         }
+
+        if (grid.nodes[this.y][this.x].hasCoin) {
+            grid.nodes[this.y][this.x].hasCoin = false;
+            this.score += 10;
+        }else if (grid.nodes[this.y][this.x].hasBigCoin) {
+            grid.nodes[this.y][this.x].hasBigCoin = false;
+            this.score += 50;
+        }
+
     }
 
     draw(){
-        /*ctx.beginPath();
-        ctx.rect(16 * (this.x - 1), 16 * (this.y - 1), 16, 16);
-        ctx.strokeStyle = "#ffff00";
-        ctx.lineWidth = 4
-        ctx.stroke();
-        ctx.closePath();*/
+        ctx.font = "18px Ariel"
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillText(this.score, 10, 20);
 
         ctx.beginPath();
         ctx.rect(16 * (this.rx - 1), 16 * (this.ry - 1), 16, 16);

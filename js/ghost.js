@@ -32,7 +32,35 @@ class Ghost {
     }
 
     getTarget() {
-        this.target = [pacman.x, pacman.y]
+        if (this.type == 0) {
+            if (this.mode == "chase") {
+                this.target = [pacman.x, pacman.y]
+            }else if (this.mode == "scatter") {
+                this.target = [29, 0]
+            }
+        }else if (this.type == 1) {
+            if (this.mode == "chase") {
+                this.target = [pinky.target[0] - blinky.x * 2, pinky.target[1] - blinky.y]
+            }else if (this.mode == "scatter") {
+                this.target = [29, 32]
+            }
+        }else if (this.type == 2) {
+            if (this.mode == "chase") {
+                this.target = [pacman.x + 2 * pacman.dx, pacman.y + 2 * pacman.dy]
+            }else if (this.mode == "scatter") {
+                this.target = [0, 0]
+            }
+        }else if (this.type == 3) {
+            if (this.mode == "chase") {
+                if (Math.abs(pacman.x - clyde.x) < 8 || Math.abs(pacman.y - clyde.y) < 8) {
+                    this.target = [0, 32]
+                }else {
+                    this.target = [pacman.x, pacman.y]
+                }
+            }else if (this.mode == "scatter") {
+                this.target = [0, 32]
+            }
+        }
     }
 
     pathfind() {
@@ -139,7 +167,6 @@ class Ghost {
         } else if (this.move[1] < 0) {
             this.y = Math.ceil(this.ry)
         }
-
         if (this.move[0] == 0) {
             this.rx = this.x
         }
@@ -148,7 +175,6 @@ class Ghost {
         }
     }*/
        
-
     draw() {
 
         if (this.type == 0) {
