@@ -38,13 +38,13 @@ class Ghost {
             }else if (this.mode == "scatter") {
                 this.target = [29, 0]
             }
-        }else if (this.type == 1) {
+        }else if (this.type == 2) {
             if (this.mode == "chase") {
                 this.target = [pinky.target[0] - blinky.x * 2, pinky.target[1] - blinky.y]
             }else if (this.mode == "scatter") {
                 this.target = [29, 32]
             }
-        }else if (this.type == 2) {
+        }else if (this.type == 1) {
             if (this.mode == "chase") {
                 this.target = [pacman.x + 2 * pacman.dx, pacman.y + 2 * pacman.dy]
             }else if (this.mode == "scatter") {
@@ -176,59 +176,11 @@ class Ghost {
     }*/
        
     draw() {
-
-        if (this.type == 0) {
-            // ctx.beginPath();
-            // ctx.rect(16 * (this.x - 1), 16 * (this.y - 1), 16, 16);
-            // ctx.strokeStyle = "#fa2402";
-            // ctx.lineWidth = 4
-            // ctx.stroke();
-            // ctx.closePath();
-
-            ctx.beginPath();
-            ctx.rect(16 * (this.rx - 1), 16 * (this.ry - 1), 16, 16);
-            ctx.fillStyle = "#fa2402";
-            ctx.fill();
-            ctx.closePath(); 
-        } else if (this.type == 1) {
-            // ctx.beginPath();
-            // ctx.rect(16 * (this.x - 1), 16 * (this.y - 1), 16, 16);
-            // ctx.strokeStyle = "#02dde1";
-            // ctx.lineWidth = 4
-            // ctx.stroke();
-            // ctx.closePath();
-
-            ctx.beginPath();
-            ctx.rect(16 * (this.rx - 1), 16 * (this.ry - 1), 16, 16);
-            ctx.fillStyle = "#02dde1";
-            ctx.fill();
-            ctx.closePath(); 
-        } else if (this.type == 2) {ctx.beginPath();
-            // ctx.rect(16 * (this.x - 1), 16 * (this.y - 1), 16, 16);
-            // ctx.strokeStyle = "#fdb3b0";
-            // ctx.lineWidth = 4
-            // ctx.stroke();
-            // ctx.closePath();
-
-            ctx.beginPath();
-            ctx.rect(16 * (this.rx - 1), 16 * (this.ry - 1), 16, 16);
-            ctx.fillStyle = "#fdb3b0";
-            ctx.fill();
-            ctx.closePath(); 
-        } else if (this.type == 3) {
-            // ctx.beginPath();
-            // ctx.rect(16 * (this.x- 1), 16 * (this.y- 1), 16, 16);
-            // ctx.strokeStyle = "#f8a201";
-            // ctx.lineWidth = 4
-            // ctx.stroke();
-            // ctx.closePath();
-
-            ctx.beginPath();
-            ctx.rect(16 * (this.rx - 1), 16 * (this.ry - 1), 16, 16);
-            ctx.fillStyle = "#f8a201";
-            ctx.fill();
-            ctx.closePath(); 
+        let img = new Image()
+        img.src = "./assets/assets.png"
+        if (this.dx == 0 && this.dy == 0) {
+        } else {
+            ctx.drawImage(img, 2 + (16 * (animation + 2 * ((Math.floor((this.dx * -1 + 2) / (Math.abs(this.dx) + 1 ))) + (Math.floor((this.dy + 2) * (Math.abs(this.dy) / 2)))))), (16) * (this.type + 4), 16, 16, 16 * (this.rx - 1) - 2, 16 * (this.ry - 1) - 2, 20, 20)
         }
-        
     }
 }

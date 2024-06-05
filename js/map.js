@@ -12,7 +12,7 @@ let matrix = [
     [3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 0, 3, 3, 0, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3],
     [3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 0, 3, 3, 0, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3],
     [3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3],
-    [3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3],
+    [3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 0, 3, 3, 3, 0, 0, 3, 3, 3, 0, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3],
     [3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3],
     [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
     [3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3],
@@ -45,6 +45,10 @@ class Node {
         this.g;
         this.f;
         this.wall;
+
+        if (y == 13 && (x == 14 || x == 15)) {
+            this.walkable = false
+        }
     }
 }
 
@@ -112,30 +116,24 @@ class Grid  {
         // ↑
         if (this.isWalkableAt(x, y - 1)) {
             neighbors.push(nodes[y - 1][x]);
-            s0 = true;
         }
         // →
         if (this.isWalkableAt(x + 1, y)) {
             neighbors.push(nodes[y][x + 1]);
-            s1 = true;
         }
         // ↓
         if (this.isWalkableAt(x, y + 1)) {
             neighbors.push(nodes[y + 1][x]);
-            s2 = true;
         }
         // ←
         if (this.isWalkableAt(x - 1, y)) {
             neighbors.push(nodes[y][x - 1]);
-            s3 = true;
         }
 
         if (x == 0 && y == 15) {
             neighbors.push(nodes[15][29]);
-            s3 = true
         } else if (x == 29 && y == 15) {
             neighbors.push(nodes[15][0]);
-            s1 = true
         }
         return neighbors;
     }
@@ -150,13 +148,19 @@ class Grid  {
 
                             if (tempContour[2] == 1) {
                                 ctx.beginPath()
-
+                                ctx.strokeStyle = "#0000ff"
                                 if(tempContour[0] == 0 && tempContour[1] == 0) {
-                                    ctx.moveTo((16 * (j - 1)) + (8 * m), (16 * (i - 1)) + (8 * n) + 6)
-                                    ctx.lineTo((16 * (j - 0.5)) + (8 * m), (16 * (i - 1)) + (8 * n) + 6)
+                                    if (i == 16 && (j == 1 && m == 0) || (j == 28 && m == 1)) {
+                                    } else {
+                                        ctx.moveTo((16 * (j - 1)) + (8 * m), (16 * (i - 1)) + (8 * n) + 6)
+                                        ctx.lineTo((16 * (j - 0.5)) + (8 * m), (16 * (i - 1)) + (8 * n) + 6)
+                                    }
                                 } else if (tempContour[0] == 1 && tempContour[1] == 1) {
-                                    ctx.moveTo((16 * (j - 1)) + (8 * m), (16 * (i - 1)) + (8 * n) + 2)
-                                    ctx.lineTo((16 * (j - 0.5)) + (8 * m), (16 * (i - 1)) + (8 * n) + 2)
+                                    if (i == 14 && (j == 1 && m == 0) || (j == 28 && m == 1)) { 
+                                    } else {
+                                        ctx.moveTo((16 * (j - 1)) + (8 * m), (16 * (i - 1)) + (8 * n) + 2)
+                                        ctx.lineTo((16 * (j - 0.5)) + (8 * m), (16 * (i - 1)) + (8 * n) + 2)
+                                    }
                                 } else if (tempContour[0] == 1 && tempContour[1] == 0) {
                                     ctx.moveTo((16 * (j - 1)) + (8 * m) + 6, (16 * (i - 1)) + (8 * n))
                                     ctx.lineTo((16 * (j - 1)) + (8 * m) + 6, (16 * (i - 0.5)) + (8 * n))
@@ -165,7 +169,7 @@ class Grid  {
                                     ctx.lineTo((16 * (j - 1)) + (8 * m) + 2, (16 * (i - 0.5)) + (8 * n))
                                     
                                 }
-                                ctx.strokeStyle = "#0000ff"
+                                
                                 ctx.lineWidth = 4
                                 ctx.closePath()
                                 ctx.stroke()
