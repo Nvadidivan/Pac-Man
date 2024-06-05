@@ -316,6 +316,19 @@ class Grid  {
         }
     }
 
+    coins() {
+        for (let i = 0; i < grid.nodes.length; i++) {
+            for (let j = 0; j < grid.nodes[i].length; j++) {
+                if (grid.nodes[i][j].hasCoin || grid.nodes[i][j].hasBigCoin) {
+                    return
+                }
+            }
+        }
+        game_over = true;
+        document.getElementById("overText").innerText = "VOUS AVEZ GAGNÉ!"
+        document.getElementById("gameOver").style.display = "flex"
+    }
+
     // checkGameOver() {
     //     if (this.gameOver == true) {
     //         ctx.font = "36px Ariel"

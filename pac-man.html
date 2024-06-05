@@ -9,6 +9,15 @@
     </head>
     <body>
         <canvas id="canvas"></canvas>
+        <div id="score">
+            <div id="scoreText">SCORE</div>
+            <div id="scoreNb">0</div>
+        </div>
+        <div id="gameOver">
+            <div id="overText">VOUS AVEZ PERDU!</div>
+            <div id="rejouer" onclick="location.reload()">REJOUER</div>
+        </div>
+        <div id="start" onclick="start()">JOUER</div>
     </body>
     <footer>
         <script src="./js/ghost.js"></script>

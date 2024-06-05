@@ -9,7 +9,9 @@ function main(time) {
     lastTime = time
     timePassed = Math.min(timePassed, 0.01)
 
-    window.requestAnimationFrame(main)
+    if (!game_over) {
+        window.requestAnimationFrame(main)
+    }
     
     if (animateTime < 0.05) {
         animateTime += timePassed

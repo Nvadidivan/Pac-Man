@@ -8,19 +8,8 @@ class Ghost {
     constructor(type) {
         this.type = type
         this.mode = 0
-        if (this.type == 0) {
-            this.x = 3
-            this.y = 15
-        } else if (this.type == 1) {
-            this.x = 22
-            this.y = 14
-        } else if (this.type == 2) {
-            this.x = 8
-            this.y = 2
-        } else if (this.type == 3) {
-            this.x = 16
-            this.y = 30
-        }
+        this.x = 0
+        this.y = 0
         this.rx = this.x
         this.ry = this.y
         this.dx = 0
@@ -28,7 +17,7 @@ class Ghost {
         this.target = [0, 0]
         this.last = [this.x, this.y]
     }
-
+    
     getTarget() {
         if (this.type == 0) {
             if (this.mode == 0) {
@@ -42,13 +31,13 @@ class Ghost {
             }else if (this.mode == 1) {
                 this.target = [29, 32]
             }
-        }else if (this.type == 1) {
+        } else if (this.type == 1) {
             if (this.mode == 0) {
                 this.target = [pacman.x + 2 * pacman.dx, pacman.y + 2 * pacman.dy]
             }else if (this.mode == 1) {
                 this.target = [0, 0]
             }
-        }else if (this.type == 3) {
+        } else if (this.type == 3) {
             if (this.mode == 0) {
                 if (Math.abs(pacman.x - this.x) < 8 || Math.abs(pacman.y - this.y) < 8) {
                     this.target = [0, 32]
@@ -96,8 +85,19 @@ class Ghost {
     }
 
     update() {
-        this.getTarget()
-        this.pathfind()
+        if (this.mode == -1) {
+            if (this.y != 12) {
+                this.dy = -1
+                this.dx = 0
+            } else {
+                this.mode = 0
+            }
+           
+        } else {
+            this.getTarget()
+            this.pathfind()
+        }
+       
 
         if (this.dx == 29) {
             this.rx = 29
@@ -133,8 +133,11 @@ class Ghost {
         if (this.x == pacman.x && this.y == pacman.y) {
             if (this.mode == 0) {
                 game_over = true;
-            }else {
-                //ghost gets eaten
+                document.getElementById("gameOver").style.display = "flex"
+            } else {
+                pacman.score += 200
+                document.getElementById("scoreNb").innerText = pacman.score
+                this.spawn()
             }
             
         }
@@ -180,13 +183,29 @@ class Ghost {
             this.ry = this.y
         }
     }*/
-       
+    
+    spawn() {
+        this.x = 14 + this.type % 2
+        this.rx = this.x
+        this.y = 14 + Math.round(this.type / 2)
+        this.ry = this.y
+        this.mode = -1
+    }
+
+
     draw() {
         let img = new Image()
         img.src = "./assets/assets.png"
-        if (this.dx == 0 && this.dy == 0) {
-        } else {
+        if (this.mode == 0 || this.mode == -1) {
             ctx.drawImage(img, 2 + (16 * (animation + 2 * ((Math.floor((this.dx * -1 + 2) / (Math.abs(this.dx) + 1 ))) + (Math.floor((this.dy + 2) * (Math.abs(this.dy) / 2)))))), (16) * (this.type + 4), 16, 16, 16 * (this.rx - 1) - 2, 16 * (this.ry - 1) - 2, 20, 20)
+        } else if (this.mode == 1) {
+            console.log("e")
+            if (timer < 8) {
+                ctx.drawImage(img, 2 + (16 * 8 + animation * 16), 16 * 4, 16, 16, 16 * (this.rx - 1) - 2, 16 * (this.ry - 1) - 2, 20, 20)
+            } else {
+                ctx.drawImage(img, 2 + (16 * 8 + animation * 16 + animation * 16), 16 * 4, 16, 16, 16 * (this.rx - 1) - 2, 16 * (this.ry - 1) - 2, 20, 20)
+
+            }
         }
     }
 }
