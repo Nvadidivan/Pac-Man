@@ -89,9 +89,17 @@ class PacMan {
         if (grid.nodes[this.y][this.x].hasCoin) {
             grid.nodes[this.y][this.x].hasCoin = false;
             this.score += 10;
+            document.getElementById("scoreNb").innerText = this.score
+            if (this.score >= 2620) {
+                grid.coins()
+            }
         }else if (grid.nodes[this.y][this.x].hasBigCoin) {
             grid.nodes[this.y][this.x].hasBigCoin = false;
             this.score += 50;
+            document.getElementById("scoreNb").innerText = this.score
+            if (this.score >= 2620) {
+                grid.coins()
+            }
             for (let i = 0; i < ghosts.length; i++) {
                 ghosts[i].mode = 1
             }
@@ -100,9 +108,6 @@ class PacMan {
     }
 
     draw(){
-        ctx.font = "18px Ariel"
-        ctx.fillStyle = "#FFFFFF";
-        ctx.fillText(this.score, 10, 20);
 
 
         // let img = new Image()
@@ -117,7 +122,6 @@ class PacMan {
         if (this.dx == 0 && this.dy == 0) {
             ctx.drawImage(img, 2 + (16 * 1), (16) * ((Math.floor((this.tx * -1 + 2) / (Math.abs(this.tx) + 1 ))) + (Math.floor((this.ty + 2) * (Math.abs(this.ty) / 2)))), 16, 16, 16 * (this.rx - 1) - 2, 16 * (this.ry - 1) - 2, 20, 20)
         } else {
-            console.log(animation)
             ctx.drawImage(img, 2 + (16 * animation), (16) * ((Math.floor((this.dx * -1 + 2) / (Math.abs(this.dx) + 1 ))) + (Math.floor((this.dy + 2) * (Math.abs(this.dy) / 2)))), 16, 16, 16 * (this.rx - 1) - 2, 16 * (this.ry - 1) - 2, 20, 20)
         }        
        

@@ -16,10 +16,6 @@ function init() {
     canvas.height = "496"
 
     ctx.imageSmoothingEnabled = false
-
-    window.addEventListener("keydown", (e) => {
-        pacman.move(e)
-    })
     
 
     grid = new Grid()
@@ -39,10 +35,26 @@ function init() {
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     grid.draw()
+   
+    ctx.beginPath()
+    ctx.fillStyle = "#0000ff"
+    ctx.fillRect(10.5 * 16, 12.5 * 16, 7 * 16, 4 * 16)
 
     
-
-    window.requestAnimationFrame(main)
 }
 
+
 window.onload = init
+
+
+function start() {
+    document.getElementById("start").style.display = "none"
+    window.addEventListener("keydown", (e) => {
+        pacman.move(e)
+    })
+
+    for (let i = 0; i < ghosts.length; i++) {
+        ghosts[i].spawn()
+    }
+    window.requestAnimationFrame(main)
+}

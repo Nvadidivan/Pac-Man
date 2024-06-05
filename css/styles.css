@@ -8,3 +8,71 @@ body {
     align-items: center;
     background-color: #000;
 }
+
+#canvas {
+    z-index: 1;
+    position: absolute;
+    top: 20%;
+}
+
+#gameOver {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    width: 80%;
+    height: 30%;
+    text-align: center;
+    z-index: 3;
+    color: white;
+    font-family: Impact, Haettenschweiler, 'Arial Bold', sans-serif;
+}
+
+#overText {
+    font-size: 124px;
+}
+
+#rejouer {
+    font-size: 36px;
+    width: 20%;
+    border-radius: 14px;
+    border-style: double;
+}
+
+#score {
+    z-index: 1;
+    color: white;
+    position: absolute;
+    top: 6%;
+    width: 20%;
+    text-align: center;
+    display: flex;
+    height: 10%;
+    font-size: 24px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+#start {
+    z-index: 4;
+    color: white;
+    width: 30%;
+    position: absolute;
+    top: 48%;
+    bottom: 46%;
+    height: 8%;
+    font-size: 48px;
+    text-align: center;
+    background-color: #000044aa;
+    border-radius: 14px;
+    border-style: double;
+    border-color: blue;
+    box-shadow: 0 0 100px 25px blue;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
