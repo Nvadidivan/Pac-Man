@@ -57,6 +57,7 @@ class Grid  {
         this.width = 30
         this.height = 33
         this.nodes = this._buildNodes()
+        this.gameOver = false
 
         this.blocked = [[this.nodes[0][0]], [this.nodes[0][0]], [this.nodes[0][0]], [this.nodes[0][0]], [this.nodes[0][0]]]
 
@@ -189,7 +190,10 @@ class Grid  {
                 }else if (this.nodes[i][j].hasBigCoin) {
                     ctx.fillStyle = "#FFFFFF"
                     ctx.fillRect(16 * (j - 1) + 5, 16 * (i - 1) + 5, 6, 6)
+                }else {
+                    this.gameOver = true;
                 }
+                
             }
         }
     }
@@ -311,4 +315,12 @@ class Grid  {
             }
         }
     }
+
+    // checkGameOver() {
+    //     if (this.gameOver == true) {
+    //         ctx.font = "36px Ariel"
+    //         ctx.fillStyle = "#FFFFFF";
+    //         ctx.fillText("GameOver", 150, 150);
+    //     }
+    // }
 }
