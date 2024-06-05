@@ -4,6 +4,7 @@ let pinky;
 let clyde;
 let ghosts = []
 let pacman;
+let game_over;
 let grid;
 let canvas;
 let context;

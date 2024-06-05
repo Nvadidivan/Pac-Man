@@ -92,6 +92,9 @@ class PacMan {
         }else if (grid.nodes[this.y][this.x].hasBigCoin) {
             grid.nodes[this.y][this.x].hasBigCoin = false;
             this.score += 50;
+            for (let i = 0; i < ghosts.length; i++) {
+                ghosts[i].mode = 1
+            }
         }
 
     }
